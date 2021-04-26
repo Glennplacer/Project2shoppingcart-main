@@ -64,13 +64,37 @@ function addIntoCart(course) {
             <td>
                 <a href="#" class="remove" data-id="${course.id}">X</a>
             </td>
-
-
         </tr>
     `;
     //add into the shopping cart
     shoppingCartContent.appendChild(row);
+
+    //add course into storage
+    saveIntoStorage(course);
 }
+//add the courses into the local storage
+function saveIntoStorage(course) {
+    let courses = getCoursesFromStorage();
+
+    //add the course into the array
+    courses.push(course);
+
+    //since the storage only saves strings we need to convert JSON into string
+    localStorage.setItem('courses', JSON.stringify(courses));
+}
+//get the contents from storage
+function getCoursesFromStorage() {
+    let courses;
+
+    //if something exists on storage then we get the value, otherwise create an empty array
+    if(localStorage.getItem('courses') === null) {
+        courses = [];
+    } else {
+        courses = JSON.parse(localStorage.getItem('courses'));
+    }
+    return courses;
+}
+
 //remove course from the DOM
 function removeCourse(e) {
 
